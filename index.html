@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citas de Pasaportes | Agenda tu Cita</title>
+  <style>
+    :root {
+      --primary: #003366;
+      --secondary: #0055a5;
+      --accent: #d4af37;
+      --success: #28a745;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #1a1a1a;
+      --gray: #6c757d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f4f8;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header h1 span {
+      font-size: 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 1;
+    }
+
+    .hero {
+      background: white;
+      padding: 3rem 0;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .hero h2 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      padding: 2.5rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 2rem;
+    }
+
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--secondary);
+    }
+
+    select optgroup {
+      font-weight: bold;
+      color: var(--primary);
+      background: #f8f9fa;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: var(--primary);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .info-box {
+      background: #e8f4ff;
+      border-left: 4px solid var(--secondary);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .slot {
+      padding: 0.5rem 0.8rem;
+      background: #f0f0f0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .slot:hover {
+      background: #d0e4ff;
+    }
+
+    .slot.selected {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .requirements ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .requirements li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .requirements li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    #confirmation {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #confirmation h3 {
+      color: var(--success);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .folio {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin: 1rem 0;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><span>🛂</span> Citas de Pasaportes</h1>
+      <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#" onclick="mostrarFormulario(); return false;" style="background: #d4af37; color: #003366; padding: 0.4rem 1rem; border-radius: 6px; font-weight: 600;">Agendar Cita</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h2>Agenda tu cita para pasaporte</h2>
+      <p>Selecciona tu estado, oficina, fecha y horario. El sistema te asignará un folio de confirmación de inmediato.</p>
+    </div>
+  </section>
+
+  <!-- Página de Inicio -->
+  <section id="inicio" class="container" style="padding: 3rem 0; text-align: center;">
+    <div class="card" style="max-width: 700px; margin: 0 auto;">
+      <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Bienvenido al Sistema de Citas de Pasaportes</h3>
+      <p style="margin-bottom: 2rem; color: #555;">Agenda tu cita de forma rápida y segura. Consulta los datos de pago oficiales antes de iniciar tu trámite.</p>
+      
+      <button onclick="mostrarFormulario()" style="max-width: 360px; font-size: 1.2rem; padding: 1.1rem 2.5rem; margin-bottom: 1rem; background: #0055a5;">
+        📅 Agendar Cita Ahora
+      </button>
+      <p style="color:#6c757d; font-size:0.95rem;">Los datos de pago se mostrarán al finalizar tu cita.</p>
+    </div>
+  </section>
+
+  <div class="container main-content" id="seccion-formulario" style="display:none;">
+    <!-- Formulario de cita -->
+    <div class="card" id="agendar">
+      <h3>Solicitar Cita</h3>
+
+      <div class="info-box">
+        <strong>Importante:</strong> Lleva tu identificación oficial vigente y los documentos según el tipo de trámite. Llega 15 minutos antes de tu cita.
+      </div>
+
+      <form id="appointmentForm">
+        <div class="row">
+          <div class="form-group">
+            <label for="nombre">Nombre completo *</label>
+            <input type="text" id="nombre" required placeholder="Ej. Juan Pérez García">
+            <div class="error" id="error-nombre">Este campo es obligatorio</div>
+          </div>
+          <div class="form-group">
+            <label for="curp">CURP *</label>
+            <input type="text" id="curp" required placeholder="Ej. PEGJ850101HDFRRN09" maxlength="18" style="text-transform:uppercase" oninput="validarCURP()">
+            <div class="error" id="error-curp">CURP con formato inválido</div>
+            <div id="curp-status" style="font-size:0.85rem; margin-top:0.3rem; min-height:1.2em;"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="email">Correo electrónico *</label>
+            <input type="email" id="email" required placeholder="correo@ejemplo.com">
+            <div class="error" id="error-email">Ingresa un correo válido</div>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono *</label>
+            <input type="tel" id="telefono" required placeholder="55 1234 5678">
+            <div class="error" id="error-telefono">Ingresa un teléfono de 10 dígitos</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tramite">Tipo de trámite *</label>
+          <select id="tramite" required>
+            <option value="">Selecciona una opción</option>
+            <option value="nuevo">Pasaporte nuevo (primera vez)</option>
+            <option value="renovacion">Renovación de pasaporte</option>
+            <option value="reposicion">Reposición por pérdida o robo</option>
+            <option value="menor">Pasaporte para menor de edad</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="vigencia">Vigencia del pasaporte *</label>
+          <select id="vigencia" required onchange="actualizarMonto()">
+            <option value="">Selecciona vigencia</option>
+            <option value="920">1 año — $920 MXN (solo menores de 3 años)</option>
+            <option value="1795">3 años — $1,795 MXN</option>
+            <option value="2440" selected>6 años — $2,440 MXN</option>
+            <option value="4280">10 años — $4,280 MXN (solo mayores de 18)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="oficina">Estado y Oficina *</label>
+          <select id="oficina" required>
+            <option value="">Selecciona un estado y oficina</option>
+
+            <optgroup label="Ciudad de México">
+              <option value="cdmx-reforma">CDMX - Oficina Centro (Paseo de la Reforma)</option>
+              <option value="cdmx-coyoacan">CDMX - Oficina Sur (Coyoacán)</option>
+              <option value="cdmx-iztapalapa">CDMX - Oficina Oriente (Iztapalapa)</option>
+              <option value="cdmx-azcapotzalco">CDMX - Oficina Norte (Azcapotzalco)</option>
+            </optgroup>
+
+            <optgroup label="Estado de México">
+              <option value="edomex-toluca">Toluca - Centro</option>
+              <option value="edomex-naucalpan">Naucalpan</option>
+              <option value="edomex-ecatepec">Ecatepec</option>
+              <option value="edomex-metepec">Metepec</option>
+            </optgroup>
+
+            <optgroup label="Jalisco">
+              <option value="jal-guadalajara">Guadalajara - Centro</option>
+              <option value="jal-zapopan">Zapopan</option>
+              <option value="jal-puerto-vallarta">Puerto Vallarta</option>
+            </optgroup>
+
+            <optgroup label="Nuevo León">
+              <option value="nl-monterrey">Monterrey - Centro</option>
+              <option value="nl-san-pedro">San Pedro Garza García</option>
+              <option value="nl-apodaca">Apodaca</option>
+            </optgroup>
+
+            <optgroup label="Puebla">
+              <option value="pue-puebla">Puebla - Centro</option>
+              <option value="pue-cholula">San Pedro Cholula</option>
+            </optgroup>
+
+            <optgroup label="Querétaro">
+              <option value="qro-queretaro">Querétaro - Centro</option>
+              <option value="qro-san-juan">San Juan del Río</option>
+            </optgroup>
+
+            <optgroup label="Guanajuato">
+              <option value="gto-leon">León</option>
+              <option value="gto-guanajuato">Guanajuato Capital</option>
+              <option value="gto-celaya">Celaya</option>
+              <option value="gto-irapuato">Irapuato</option>
+            </optgroup>
+
+            <optgroup label="Yucatán">
+              <option value="yuc-merida">Mérida - Centro</option>
+              <option value="yuc-progreso">Progreso</option>
+            </optgroup>
+
+            <optgroup label="Quintana Roo">
+              <option value="qroo-cancun">Cancún</option>
+              <option value="qroo-playa">Playa del Carmen</option>
+              <option value="qroo-chetumal">Chetumal</option>
+            </optgroup>
+
+            <optgroup label="Baja California">
+              <option value="bc-tijuana">Tijuana</option>
+              <option value="bc-mexicali">Mexicali</option>
+              <option value="bc-ensenada">Ensenada</option>
+            </optgroup>
+
+            <optgroup label="Sonora">
+              <option value="son-hermosillo">Hermosillo</option>
+              <option value="son-nogales">Nogales</option>
+              <option value="son-guaymas">Guaymas</option>
+            </optgroup>
+
+            <optgroup label="Chihuahua">
+              <option value="chih-chihuahua">Chihuahua Capital</option>
+              <option value="chih-juarez">Ciudad Juárez</option>
+            </optgroup>
+
+            <optgroup label="Veracruz">
+              <option value="ver-xalapa">Xalapa</option>
+              <option value="ver-veracruz">Veracruz Puerto</option>
+              <option value="ver-cordoba">Córdoba</option>
+            </optgroup>
+
+            <optgroup label="Oaxaca">
+              <option value="oax-oaxaca">Oaxaca de Juárez</option>
+              <option value="oax-salina">Salina Cruz</option>
+            </optgroup>
+
+            <optgroup label="Chiapas">
+              <option value="chis-tuxtla">Tuxtla Gutiérrez</option>
+              <option value="chis-tapachula">Tapachula</option>
+            </optgroup>
+
+            <optgroup label="Sinaloa">
+              <option value="sin-culiacan">Culiacán</option>
+              <option value="sin-mazatlan">Mazatlán</option>
+            </optgroup>
+
+            <optgroup label="Michoacán">
+              <option value="mich-morelia">Morelia</option>
+              <option value="mich-uruapan">Uruapan</option>
+            </optgroup>
+
+            <optgroup label="Aguascalientes">
+              <option value="ags-aguascalientes">Aguascalientes</option>
+            </optgroup>
+
+            <optgroup label="San Luis Potosí">
+              <option value="slp-sanluis">San Luis Potosí</option>
+            </optgroup>
+
+            <optgroup label="Coahuila">
+              <option value="coah-saltillo">Saltillo</option>
+              <option value="coah-torreon">Torreón</option>
+            </optgroup>
+
+            <optgroup label="Tamaulipas">
+              <option value="tamps-tampico">Tampico</option>
+              <option value="tamps-reynosa">Reynosa</option>
+              <option value="tamps-matamoros">Matamoros</option>
+            </optgroup>
+
+            <optgroup label="Tabasco">
+              <option value="tab-villahermosa">Villahermosa</option>
+            </optgroup>
+
+            <optgroup label="Campeche">
+              <option value="camp-campeche">Campeche</option>
+            </optgroup>
+
+            <optgroup label="Guerrero">
+              <option value="gro-acapulco">Acapulco</option>
+              <option value="gro-chilpancingo">Chilpancingo</option>
+            </optgroup>
+
+            <optgroup label="Hidalgo">
+              <option value="hgo-pachuca">Pachuca</option>
+            </optgroup>
+
+            <optgroup label="Morelos">
+              <option value="mor-cuernavaca">Cuernavaca</option>
+            </optgroup>
+
+            <optgroup label="Tlaxcala">
+              <option value="tlax-tlaxcala">Tlaxcala</option>
+            </optgroup>
+
+            <optgroup label="Colima">
+              <option value="col-colima">Colima</option>
+              <option value="col-manzanillo">Manzanillo</option>
+            </optgroup>
+
+            <optgroup label="Nayarit">
+              <option value="nay-tepic">Tepic</option>
+            </optgroup>
+
+            <optgroup label="Zacatecas">
+              <option value="zac-zacatecas">Zacatecas</option>
+            </optgroup>
+
+            <optgroup label="Durango">
+              <option value="dgo-durango">Durango</option>
+            </optgroup>
+
+            <optgroup label="Baja California Sur">
+              <option value="bcs-lapaz">La Paz</option>
+              <option value="bcs-los-cabos">Los Cabos</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label for="fecha">Fecha preferida *</label>
+            <input type="date" id="fecha" required>
+          </div>
+          <div class="form-group">
+            <label>Horarios disponibles</label>
+            <div class="slots" id="slots">
+              <div class="slot" data-time="09:00">09:00</div>
+              <div class="slot" data-time="09:30">09:30</div>
+              <div class="slot" data-time="10:00">10:00</div>
+              <div class="slot" data-time="10:30">10:30</div>
+              <div class="slot" data-time="11:00">11:00</div>
+              <div class="slot" data-time="12:00">12:00</div>
+              <div class="slot" data-time="13:00">13:00</div>
+              <div class="slot" data-time="14:00">14:00</div>
+              <div class="slot" data-time="15:00">15:00</div>
+              <div class="slot" data-time="16:00">16:00</div>
+            </div>
+            <input type="hidden" id="hora" required>
+            <div class="error" id="error-hora">Selecciona un horario</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="comentarios">Comentarios adicionales (opcional)</label>
+          <textarea id="comentarios" rows="3" placeholder="Alguna observación o necesidad especial..."></textarea>
+        </div>
+
+        <button type="submit">Confirmar Cita</button>
+      </form>
+
+      <!-- Confirmación -->
+      <div id="confirmation">
+        <h3>¡Cita agendada con éxito!</h3>
+        <p>Tu cita ha sido registrada. Presenta este folio el día de tu cita.</p>
+        <div class="folio" id="folio"></div>
+        <p><strong>Fecha:</strong> <span id="conf-fecha"></span></p>
+        <p><strong>Hora:</strong> <span id="conf-hora"></span></p>
+        <p><strong>Oficina:</strong> <span id="conf-oficina"></span></p>
+
+        <div style="margin-top:2rem; padding:1.5rem; background:#f8f9fa; border-radius:10px; text-align:left; border:1px solid #e0e0e0;">
+          <h4 style="color:#003366; margin-bottom:1rem; text-align:center;">Datos para el pago</h4>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+            <div>
+              <strong>Monto a pagar:</strong><br>
+              <span id="pago-monto" style="font-size:1.4rem; color:#28a745; font-weight:bold;">$1,625.00 MXN</span>
+            </div>
+            <div>
+              <strong>Concepto:</strong><br>
+              <span id="pago-concepto">Derechos de pasaporte</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1rem; background:#e8f4ff; padding:1rem; border-radius:8px; border-left:4px solid #0055a5;">
+            <strong style="color:#003366;">CLABE única Conekta SPEI:</strong><br>
+            <div id="pago-clabe" style="font-family:monospace; font-size:1.4rem; font-weight:bold; background:white; padding:0.8rem; border-radius:6px; letter-spacing:2px; text-align:center; margin-top:0.4rem; border:2px solid #0055a5;">
+              646180000000000000
+            </div>
+            <p style="margin:0.5rem 0 0; font-size:0.85rem; color:#555;">
+              Banco receptor: <strong>STP</strong> (Conekta)<br>
+              Usa esta CLABE exclusivamente para tu pago. Es única para ti.
+            </p>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <strong>Referencia de pago / Folio:</strong><br>
+            <div id="pago-referencia" style="font-family:monospace; font-size:1.1rem; background:white; padding:0.6rem; border-radius:6px; letter-spacing:1px; border:1px dashed #0055a5;">
+              PAS-2026-XXXX-XXXX
+            </div>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <strong>Fecha límite de pago:</strong><br>
+            <span id="pago-limite">Antes de tu cita</span>
+          </div>
+
+          <div>
+            <strong>Formas de pago aceptadas:</strong>
+            <ul id="pago-metodos" style="margin:0.5rem 0 0 1.2rem; font-size:0.95rem;">
+              <li>Transferencia SPEI</li>
+            </ul>
+          </div>
+
+          <p id="pago-nota" style="margin-top:1rem; font-size:0.85rem; color:#6c757d; text-align:center;">
+            Conserva tu comprobante de pago.
+          </p>
+
+          <div id="conekta-button-container" style="text-align:center; margin-top:1.5rem; min-height:60px;">
+            <!-- Aquí se insertará el botón de Conekta -->
+            <p style="color:#888; font-size:0.9rem;">El botón de Conekta aparecerá aquí cuando lo configures en el Panel de Control.</p>
+          </div>
+        </div>
+
+        <br>
+        <button onclick="resetForm()" style="background:#6c757d;">Agendar otra cita</button>
+      </div>
+    </div>
+
+    <!-- Requisitos -->
+    <div class="card requirements" id="requisitos">
+      <h3>Requisitos generales</h3>
+      <ul>
+        <li>Identificación oficial vigente (INE, pasaporte anterior o cartilla)</li>
+        <li>CURP actualizado</li>
+        <li>Comprobante de domicilio reciente (no mayor a 3 meses)</li>
+        <li>Pago de derechos (según vigencia del pasaporte)</li>
+        <li>Para menores: acta de nacimiento y presencia de ambos padres</li>
+        <li>Fotografías (las toma la oficina en el momento)</li>
+      </ul>
+
+      <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
+        <strong>Precios de pasaporte 2026 (SRE):</strong>
+        <table style="width:100%; margin-top:0.5rem; font-size:0.9rem; border-collapse:collapse;">
+          <tr style="background:#f0f4f8;"><th style="padding:0.4rem; text-align:left;">Vigencia</th><th style="padding:0.4rem;">Precio</th><th style="padding:0.4rem;">Con 50% dto.</th></tr>
+          <tr><td style="padding:0.4rem;">1 año</td><td style="padding:0.4rem;">$920</td><td style="padding:0.4rem;">$460</td></tr>
+          <tr><td style="padding:0.4rem;">3 años</td><td style="padding:0.4rem;">$1,795</td><td style="padding:0.4rem;">$900</td></tr>
+          <tr style="background:#f8f9fa;"><td style="padding:0.4rem;">6 años</td><td style="padding:0.4rem;">$2,440</td><td style="padding:0.4rem;">$1,220</td></tr>
+          <tr><td style="padding:0.4rem;">10 años</td><td style="padding:0.4rem;">$4,280</td><td style="padding:0.4rem;">$2,140</td></tr>
+        </table>
+        <small style="color:#6c757d; display:block; margin-top:0.4rem;">1 año solo menores de 3 años. 10 años solo mayores de 18. Descuento 50% para mayores de 60, discapacidad y trabajadores agrícolas Canadá.</small>
+      </div>
+
+      <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+        <strong>Horario de oficinas:</strong><br>
+        Lunes a viernes de 9:00 a 17:00 hrs.
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel de Control (Administración) -->
+  <div class="container" style="margin-bottom: 2rem;">
+    <!-- Login del panel -->
+    <div class="card" id="admin-login" style="max-width:400px; margin:0 auto; border:2px solid #d4af37;">
+      <h3 style="color:#d4af37; text-align:center;">Acceso al Panel de Control</h3>
+      <div class="form-group">
+        <label for="admin-user">Usuario</label>
+        <input type="text" id="admin-user" placeholder="Usuario">
+      </div>
+      <div class="form-group">
+        <label for="admin-pass">Contraseña</label>
+        <input type="password" id="admin-pass" placeholder="Contraseña">
+      </div>
+      <button type="button" onclick="loginAdmin()" style="background:#d4af37; color:#000;">Entrar</button>
+      <p id="login-error" style="color:#dc3545; margin-top:0.5rem; display:none; text-align:center;">Usuario o contraseña incorrectos</p>
+      <p style="margin-top:1rem; font-size:0.8rem; color:#888; text-align:center;">Credenciales por defecto: admin / admin123</p>
+    </div>
+
+    <div class="card" id="admin-panel" style="display:none; border: 2px solid #d4af37;">
+      <h3 style="color:#d4af37;">Panel de Control — Datos de Pago</h3>
+      <p style="margin-bottom:1rem; color:#6c757d;">Configura la información de pago que verá el cliente al confirmar su cita.</p>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="admin-monto">Monto a pagar</label>
+          <input type="text" id="admin-monto" placeholder="Ej. $1,625.00 MXN" value="$1,625.00 MXN">
+        </div>
+        <div class="form-group">
+          <label for="admin-concepto">Concepto</label>
+          <input type="text" id="admin-concepto" placeholder="Ej. Derechos de pasaporte" value="Derechos de pasaporte">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="admin-clabe">CLABE interbancaria</label>
+        <input type="text" id="admin-clabe" placeholder="012 180 0012 3456 7890" value="012 180 0012 3456 7890">
+      </div>
+
+      <div class="form-group">
+        <label for="admin-banco">Banco</label>
+        <input type="text" id="admin-banco" placeholder="Ej. BBVA Bancomer" value="BBVA">
+      </div>
+
+      <div class="form-group">
+        <label for="admin-metodos">Formas de pago (una por línea)</label>
+        <textarea id="admin-metodos" rows="4" placeholder="Escribe cada método en una línea">Transferencia SPEI
+Pago en ventanilla bancaria
+Tarjeta de crédito o débito en la oficina
+Línea de captura en OXXO</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="admin-nota">Nota adicional para el cliente</label>
+        <textarea id="admin-nota" rows="2">Conserva tu comprobante de pago. Deberás presentarlo junto con tu folio el día de la cita.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="admin-conekta-code">Código del Botón de Pago de Conekta</label>
+        <textarea id="admin-conekta-code" rows="6" placeholder="Pega aquí el código completo que te da Conekta (el <script> o el HTML del botón)..."></textarea>
+        <small style="color:#6c757d;">En tu panel de Conekta → Links de pago → genera el botón y copia el código. Pégalo aquí.</small>
+      </div>
+
+      <button type="button" onclick="guardarConfiguracionPago()" style="background:#d4af37; color:#000;">Guardar configuración de pago</button>
+      <button type="button" onclick="logoutAdmin()" style="background:#6c757d; margin-top:0.5rem;">Cerrar sesión</button>
+      <p id="admin-mensaje" style="margin-top:0.8rem; color:#28a745; display:none;">✓ Configuración guardada correctamente</p>
+    </div>
+
+    <div style="text-align:center; margin-top:1rem;">
+      <button type="button" onclick="mostrarLogin()" style="width:auto; padding:0.6rem 1.5rem; background:#6c757d; font-size:0.9rem;">
+        Acceder al Panel de Control
+      </button>
+    </div>
+  </div>
+
+  <footer id="contacto">
+    <div class="container">
+      <p>Sistema de Citas de Pasaportes • Atención ciudadana</p>
+      <p>Esta es una página de demostración. No es un sitio oficial del gobierno.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Establecer fecha mínima (hoy)
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha').setAttribute('min', today);
+
+    // Selección de horario
+    const slots = document.querySelectorAll('.slot');
+    const horaInput = document.getElementById('hora');
+
+    slots.forEach(slot => {
+      slot.addEventListener('click', () => {
+        slots.forEach(s => s.classList.remove('selected'));
+        slot.classList.add('selected');
+        horaInput.value = slot.dataset.time;
+        document.getElementById('error-hora').style.display = 'none';
+      });
+    });
+
+    // Validación y envío del formulario
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let valid = true;
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const curp = document.getElementById('curp').value.trim().toUpperCase();
+      const email = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.replace(/\D/g, '');
+      const hora = horaInput.value;
+
+      document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+
+      if (nombre.length < 5) {
+        document.getElementById('error-nombre').style.display = 'block';
+        valid = false;
+      }
+
+      if (!esCURPValida(curp)) {
+        document.getElementById('error-curp').style.display = 'block';
+        valid = false;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('error-email').style.display = 'block';
+        valid = false;
+      }
+
+      if (telefono.length !== 10) {
+        document.getElementById('error-telefono').style.display = 'block';
+        valid = false;
+      }
+
+      if (!hora) {
+        document.getElementById('error-hora').style.display = 'block';
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Generar folio
+      const folio = 'PAS-' + Date.now().toString().slice(-8) + '-' + Math.floor(Math.random()*900 + 100);
+
+      // Mostrar confirmación
+      document.getElementById('folio').textContent = folio;
+      document.getElementById('conf-fecha').textContent = document.getElementById('fecha').value;
+      document.getElementById('conf-hora').textContent = hora;
+      
+      const oficinaSelect = document.getElementById('oficina');
+      document.getElementById('conf-oficina').textContent = oficinaSelect.options[oficinaSelect.selectedIndex].text;
+
+      // Datos de pago (simulados según vigencia típica de 6 años)
+      document.getElementById('pago-monto').textContent = '$1,625.00 MXN';
+      document.getElementById('pago-referencia').textContent = folio;
+      
+      // Fecha límite = día anterior a la cita
+      const fechaCita = new Date(document.getElementById('fecha').value + 'T00:00:00');
+      fechaCita.setDate(fechaCita.getDate() - 1);
+      const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+      document.getElementById('pago-limite').textContent = fechaCita.toLocaleDateString('es-MX', opciones);
+
+      document.getElementById('appointmentForm').style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+      
+      const clabeUnica = generarCLABEUnica();
+      aplicarConfiguracionPago(clabeUnica);
+
+      document.getElementById('confirmation').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Validación de formato de CURP (estructura oficial)
+    function esCURPValida(curp) {
+      const regex = /^[A-Z][AEIOUX][A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9]\d$/;
+      return regex.test(curp);
+    }
+
+    function validarCURP() {
+      const input = document.getElementById('curp');
+      const status = document.getElementById('curp-status');
+      const error = document.getElementById('error-curp');
+      const curp = input.value.toUpperCase().trim();
+
+      input.value = curp;
+
+      if (curp.length === 0) {
+        status.textContent = '';
+        error.style.display = 'none';
+        return;
+      }
+
+      if (curp.length < 18) {
+        status.textContent = 'Escribe los 18 caracteres';
+        status.style.color = '#6c757d';
+        error.style.display = 'none';
+        return;
+      }
+
+      if (esCURPValida(curp)) {
+        status.textContent = '✓ Formato de CURP válido';
+        status.style.color = '#28a745';
+        error.style.display = 'none';
+        input.style.borderColor = '#28a745';
+      } else {
+        status.textContent = '';
+        error.style.display = 'block';
+        input.style.borderColor = '#dc3545';
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('appointmentForm').reset();
+      document.getElementById('appointmentForm').style.display = 'block';
+      document.getElementById('confirmation').style.display = 'none';
+      slots.forEach(s => s.classList.remove('selected'));
+      horaInput.value = '';
+      document.getElementById('curp-status').textContent = '';
+      document.getElementById('curp').style.borderColor = '';
+    }
+
+    // ==================== PANEL DE CONTROL ====================
+    function mostrarLogin() {
+      document.getElementById('admin-login').style.display = 'block';
+      document.getElementById('admin-panel').style.display = 'none';
+    }
+
+    function loginAdmin() {
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value;
+      // Credenciales por defecto (puedes cambiarlas editando estas líneas)
+      const validUser = 'admin';
+      const validPass = 'admin123';
+
+      if (user === validUser && pass === validPass) {
+        document.getElementById('admin-login').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        document.getElementById('login-error').style.display = 'none';
+        cargarConfiguracionPago();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-panel').style.display = 'none';
+      document.getElementById('admin-login').style.display = 'block';
+      document.getElementById('admin-user').value = '';
+      document.getElementById('admin-pass').value = '';
+    }
+
+    function actualizarMonto() {
+      const vigencia = document.getElementById('vigencia');
+      if (vigencia.value) {
+        const monto = '$' + Number(vigencia.value).toLocaleString('es-MX') + '.00 MXN';
+        // Actualizar el monto por defecto en el panel si está abierto
+        const adminMonto = document.getElementById('admin-monto');
+        if (adminMonto) adminMonto.value = monto;
+      }
+    }
+
+    function cargarConfiguracionPago() {
+      const config = JSON.parse(localStorage.getItem('pagoConfig')) || {
+        monto: '$1,625.00 MXN',
+        concepto: 'Derechos de pasaporte',
+        clabe: '012 180 0012 3456 7890',
+        banco: 'BBVA',
+        metodos: 'Transferencia SPEI a la CLABE única Conekta\nPago en ventanilla bancaria\nTarjeta de crédito o débito en la oficina\nLínea de captura en OXXO',
+        nota: 'Conserva tu comprobante de pago. Deberás presentarlo junto con tu folio el día de la cita.'
+      };
+
+      document.getElementById('admin-monto').value = config.monto;
+      document.getElementById('admin-concepto').value = config.concepto;
+      document.getElementById('admin-clabe').value = config.clabe;
+      document.getElementById('admin-banco').value = config.banco;
+      document.getElementById('admin-metodos').value = config.metodos;
+      document.getElementById('admin-nota').value = config.nota;
+      document.getElementById('admin-conekta-code').value = config.conektaCode || '';
+    }
+
+    function guardarConfiguracionPago() {
+      const config = {
+        monto: document.getElementById('admin-monto').value,
+        concepto: document.getElementById('admin-concepto').value,
+        clabe: document.getElementById('admin-clabe').value,
+        banco: document.getElementById('admin-banco').value,
+        metodos: document.getElementById('admin-metodos').value,
+        nota: document.getElementById('admin-nota').value,
+        conektaCode: document.getElementById('admin-conekta-code').value
+      };
+      localStorage.setItem('pagoConfig', JSON.stringify(config));
+      
+      const msg = document.getElementById('admin-mensaje');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    // Genera una CLABE simulada estilo Conekta (18 dígitos, empieza con 646180 típico de STP/Conekta)
+    function generarCLABEUnica() {
+      // Prefijo típico de cuentas virtuales Conekta/STP
+      let clabe = '646180';
+      for (let i = 0; i < 11; i++) {
+        clabe += Math.floor(Math.random() * 10);
+      }
+      // Dígito verificador simple (solo para que se vea real)
+      let sum = 0;
+      for (let i = 0; i < 17; i++) sum += parseInt(clabe[i]) * (i % 2 === 0 ? 1 : 2);
+      clabe += (sum % 10).toString();
+      return clabe;
+    }
+
+    function aplicarConfiguracionPago(clabeUnica) {
+      const config = JSON.parse(localStorage.getItem('pagoConfig')) || {};
+      
+      const vigenciaSelect = document.getElementById('vigencia');
+      const montoDefault = vigenciaSelect && vigenciaSelect.value 
+        ? '$' + Number(vigenciaSelect.value).toLocaleString('es-MX') + '.00 MXN'
+        : '$2,440.00 MXN';
+      document.getElementById('pago-monto').textContent = config.monto || montoDefault;
+      document.getElementById('pago-concepto').textContent = config.concepto || 'Derechos de pasaporte';
+      
+      // Mostrar CLABE única generada
+      if (clabeUnica) {
+        document.getElementById('pago-clabe').textContent = clabeUnica.replace(/(\d{4})(?=\d)/g, '$1 ');
+      }
+
+      // Métodos de pago
+      const metodosUl = document.getElementById('pago-metodos');
+      metodosUl.innerHTML = '';
+      const metodos = (config.metodos || 'Transferencia SPEI (Conekta)').split('\n').filter(m => m.trim());
+      metodos.forEach(m => {
+        const li = document.createElement('li');
+        li.textContent = m;
+        metodosUl.appendChild(li);
+      });
+
+      document.getElementById('pago-nota').textContent = config.nota || 'Conserva tu comprobante de pago. La CLABE es única y solo válida para este pago.';
+
+      // Insertar el código del botón de Conekta
+      const container = document.getElementById('conekta-button-container');
+      if (config.conektaCode && config.conektaCode.trim()) {
+        container.innerHTML = config.conektaCode;
+        // Ejecutar scripts si los hay
+        const scripts = container.querySelectorAll('script');
+        scripts.forEach(oldScript => {
+          const newScript = document.createElement('script');
+          if (oldScript.src) newScript.src = oldScript.src;
+          else newScript.textContent = oldScript.textContent;
+          document.body.appendChild(newScript);
+        });
+      } else {
+        container.innerHTML = '<p style="color:#888; font-size:0.9rem;">Configura el código del Botón de Pago de Conekta en el Panel de Control.</p>';
+      }
+    }
+
+    function mostrarFormulario() {
+      document.getElementById('inicio').style.display = 'none';
+      document.getElementById('seccion-formulario').style.display = 'grid';
+      document.getElementById('seccion-formulario').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Cargar configuración al iniciar
+    window.addEventListener('DOMContentLoaded', cargarConfiguracionPago);
+
+    // Llamar aplicarConfiguracionPago cuando se muestra la confirmación
+    const originalSubmitHandler = document.getElementById('appointmentForm').onsubmit;
+  </script>
+</body>
+</html>
